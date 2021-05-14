@@ -3,10 +3,16 @@ import React, {useRef, useState} from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import Trimmer from 'react-native-trimmer';
+import {Appbar} from 'react-native-paper';
+import { Paragraph, Dialog, Portal , List, RadioButton} from 'react-native-paper';
+import  {Provider as PaperProvider } from 'react-native-paper';
 
 
 const LibraryScreen = ({navigation}) => {
-
+     
+       
+  
+    const [visible, setVisible] = React.useState(false);
     const video = useRef(null);
     const [status, setStatus] = useState({});
     const external = navigation.getParam('external');
@@ -53,12 +59,127 @@ const LibraryScreen = ({navigation}) => {
         
       };
 
+      // const _handleVideoRef = (component) => {
 
+      //   console.log("component",status);
+      //   const playbackObject = component;
+      //   if(playbackObject!= null) {
+      //     const aa = playbackObject.setStatusAsync({ shouldPlay: true, positionMillis: 6000 }).then({});
+          
+      //   }
+        
+      // }
 
+      
+      const hideDialog = () => setVisible(false);
+      
 
+      const _goBack = () => console.log('Went back');
+
+      const _handleSearch = () => console.log('Searching');
+    
+      const _handleMore = (e) => {
+        setVisible(true);
+      };
+      
+      const [checked, setChecked] = React.useState('first');
+      const [checked2, setChecked2] = React.useState('first');
+      const [checked3, setChecked3] = React.useState('first');
+      const [checked4, setChecked4] = React.useState('first');
+      const [checked5, setChecked5] = React.useState('first');
     return (
 
-      <>
+
+      <PaperProvider>
+
+      <Appbar.Header>
+        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.Content title="Video Analysis"  />
+        <Appbar.Action icon="magnify" onPress={_handleSearch} />
+        <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+      </Appbar.Header>
+      {visible && <Portal>
+          <Dialog visible={visible} onDismiss={hideDialog}>
+            <Dialog.Title>Options</Dialog.Title>
+            <Dialog.Content>
+            <List.Section>
+              <List.Subheader>Show Scales</List.Subheader>
+              <List.Item>
+              <RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      />
+                </List.Item> 
+  </List.Section>
+
+  <List.Section>
+              <List.Subheader>Show Callibration Stick</List.Subheader>
+              <List.Item><RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      /></List.Item> 
+  </List.Section>
+
+  <List.Section>
+              <List.Subheader>Show Coordinates</List.Subheader>
+              <List.Item><RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      /></List.Item> 
+  </List.Section>
+
+  <List.Section>
+              <List.Subheader>Tracker Selection</List.Subheader>
+              <List.Item><RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      /></List.Item> 
+  </List.Section>
+
+  <List.Section>
+              <List.Subheader>Target Selection Shape</List.Subheader>
+              <List.Item><RadioButton
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      /></List.Item> 
+  </List.Section>
+
+            </Dialog.Content>
+            <Dialog.Actions>
+              
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>}
       <View>
         {
           playing
@@ -94,19 +215,18 @@ const LibraryScreen = ({navigation}) => {
         
         <View style={styles.container}>
       <Video
-        ref={video}
+        //ref={_handleVideoRef}
         style={styles.video}
         source={{
           uri: videoURL,
         }}
         useNativeControls
         resizeMode="cover"
-        isLooping
         onPlaybackStatusUpdate={status => setStatus(() => status)}
       />
     </View>
         
-      </>
+      </PaperProvider>
         
     );
     
