@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, Alert } from 'react-native';
 import HomeScreenButtons from "../components/HomeScreenButtons";
+import * as MediaLibrary from 'expo-media-library';
 import * as VideoPicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
@@ -55,8 +56,9 @@ const HomeScreen = ({navigation}) => {
               <View style={styles.item1}>
 
                 <TouchableOpacity
-                  onPress = {() => pickFromGallery().then(data => 
-                  navigation.navigate('Library', {external : false , videoURL: data.uri}))
+                  onPress = {() => pickFromGallery().then(data => {
+                  MediaLibrary.saveToLibraryAsync(data.uri).then(console.log).catch(console.log)
+                  return navigation.navigate('Library', {external : false , videoURL: data.uri})})
                   }>
                       
                   <Text>Photo and Video Library</Text>
