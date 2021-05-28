@@ -8,18 +8,23 @@ console.log("pro",props)
 
 
 
-// const [option, setOption] = useReducer((state, newState) => ({ ...state, ...newState }),
-//   {
-//     name: props.name,
-//     selected: props.selected,
-//     option1: props.option1,
-//     option2: props.option2,
-//   }
-// );
+const [option, setOption] = useReducer((state, newState) => ({ ...state, ...newState }),
+  {
+    showModal: props.showModal,
+    name: props.optionName,
+    selected: props.selected,
+    option1: props.option1,
+    option2: props.option2,
+  }
+);
 
 const handleVisibility = () => {
     props.handleModalVisibility(false);
 
+}
+
+const handleChange1 = (options) => {
+  props.handleRadioButton(options)
 }
 
 //    const hideModal = () => setVisible({showModal : false});
@@ -28,10 +33,12 @@ const handleVisibility = () => {
   return (
     <Provider>
       <Portal>
-        <Modal visible={true} onDismiss={handleVisibility} contentContainerStyle={containerStyle}>
-        <Text>Orientation</Text>
-          <StyledRadioButton props={props}/>
+        {option.showModal && <Modal visible={true} onDismiss={handleVisibility} contentContainerStyle={containerStyle} >
+        
+
+          <StyledRadioButton props={props} handleRadio={handleChange1}/>
         </Modal>
+}
       </Portal>
     </Provider>
   );
